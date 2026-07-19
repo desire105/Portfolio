@@ -557,27 +557,162 @@
 </style>
 
 <!-- ============================================================
-     MOBILE: shrink the ENTIRE desktop layout as one block instead
-     of reflowing it. #scaleOuter reserves the right amount of
-     vertical space; #desktopWrap is fixed at the desktop width and
-     gets visually scaled down to fit the phone's viewport.
+     MOBILE RESPONSIVE STYLES — Laptop pe kuch change nahi hoga
      ============================================================ -->
 <style>
-  #scaleOuter {
-    position: relative;
-    width: 100%;
-    overflow: hidden;
+  /* ========== MOBILE RESPONSIVE (max-width: 767px) ========== */
+  @media (max-width: 767px) {
+    /* ---- Navbar ---- */
+    .navbar {
+      padding: 16px 20px;
+      justify-content: center;
+    }
+    .nav-links {
+      gap: 4px;
+      padding: 4px 6px;
+    }
+    .nav-links a {
+      padding: 8px 14px;
+      font-size: 12px;
+    }
+
+    /* ---- Hero ---- */
+    .hero-headline h1 {
+      font-size: 36px;
+      letter-spacing: -1px;
+      line-height: 1.15;
+    }
+    .hero-headline .accent {
+      text-decoration-thickness: 2px;
+      text-underline-offset: 5px;
+    }
+    /* Hide hero images on mobile */
+    .hero-img {
+      display: none !important;
+    }
+
+    /* ---- Book Section ---- */
+    .scroll-container {
+      width: 100%;
+      max-width: 100%;
+      aspect-ratio: auto;
+      height: 60vh;
+      min-height: 400px;
+    }
+    #lineSvg {
+      width: 100%;
+      margin-left: 0;
+    }
+    .journey-text span {
+      font-size: clamp(32px, 12vw, 60px);
+    }
+
+    /* ---- Metro Section ---- */
+    .section2-wrap {
+      height: auto;
+      min-height: 600px;
+    }
+    .section {
+      height: 700px;
+    }
+    .bg-slider {
+      top: 200px;
+      height: 60%;
+    }
+    .bg-slide img {
+      width: 90%;
+      margin: 0 auto;
+      height: 100%;
+    }
+    .fg-image {
+      top: 150px;
+    }
+    .arrow {
+      width: 40px;
+      height: 40px;
+      font-size: 18px;
+      top: 65%;
+    }
+    .arrow-left  { left: 10px; }
+    .arrow-right { right: 10px; }
+    .top-left-img {
+      top: 10px;
+      left: 10px;
+      width: 100px;
+    }
+    .top-left-img img {
+      width: 200px;
+      height: 200px;
+    }
+
+    /* ---- Intro Wrap (Gujarati) ---- */
+    .heading-gu {
+      font-size: clamp(24px, 8vw, 40px);
+      padding: 0 16px;
+    }
+    .intro-subtitle {
+      font-size: clamp(18px, 5vw, 28px);
+    }
+    .enter-btn {
+      font-size: 14px;
+      padding: 12px 32px;
+      margin-top: 24px;
+    }
+    .intro-mascot {
+      width: 40px;
+      top: 16px;
+      left: 16px;
+    }
   }
-  #desktopWrap {
-    transform-origin: top left;
+
+  /* ========== TABLET (768px - 1023px) ========== */
+  @media (min-width: 768px) and (max-width: 1023px) {
+    .hero-headline h1 {
+      font-size: 52px;
+    }
+    .img-left-top {
+      width: 160px;
+      height: 140px;
+      top: 80px;
+      left: 40px;
+    }
+    .img-left-bottom {
+      width: 140px;
+      height: 140px;
+      left: 40px;
+    }
+    .img-right-top {
+      height: 160px;
+      top: 40px;
+      right: 20px;
+    }
+    .img-right-bottom {
+      right: 40px;
+      bottom: 40px;
+    }
+    .scroll-container {
+      width: 100%;
+      max-width: 100%;
+    }
+    #lineSvg {
+      width: 95%;
+      margin-left: 20px;
+    }
+    .section {
+      height: 850px;
+    }
+    .top-left-img img {
+      width: 300px;
+      height: 300px;
+    }
   }
 </style>
+
 <base target="_blank">
 
+<base target="_blank">
 </head>
 <body>
-
-<div id="scaleOuter"><div id="desktopWrap">
 
 <!-- LOADER (black doors) -->
 <div class="loader-wrap" id="loaderWrap">
@@ -726,9 +861,6 @@
     </div>
 
 </div>
-
-</div></div>
-<!-- /desktopWrap /scaleOuter -->
 
 <script src="https://cdn.jsdelivr.net/npm/gsap@3/dist/gsap.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/gsap@3/dist/ScrollTrigger.min.js"></script>
@@ -959,54 +1091,6 @@
         duration: 1.6,
         ease: "power2.out"
     }, "-=0.8");
-</script>
-<script>
-  // ============================================================
-  // MOBILE SCALE: below BREAKPOINT, freeze the layout at desktop
-  // width (BASE_WIDTH) and shrink the whole thing down visually,
-  // so mobile shows the exact same design as a laptop — just smaller.
-  // ============================================================
-  (function () {
-    var BASE_WIDTH = 1400;   // matches .navbar's desktop max-width
-    var BREAKPOINT = 1000;   // below this, switch to scaled mode
-
-    var outer = document.getElementById('scaleOuter');
-    var wrap = document.getElementById('desktopWrap');
-    if (!outer || !wrap) return;
-
-    function applyScale() {
-      var w = window.innerWidth;
-
-      if (w <= BREAKPOINT) {
-        var scale = w / BASE_WIDTH;
-        wrap.style.width = BASE_WIDTH + 'px';
-        wrap.style.transform = 'scale(' + scale + ')';
-        outer.style.height = Math.ceil(wrap.getBoundingClientRect().height * scale) + 'px';
-      } else {
-        wrap.style.width = '';
-        wrap.style.transform = '';
-        outer.style.height = '';
-      }
-    }
-
-    applyScale();
-    window.addEventListener('resize', applyScale);
-    window.addEventListener('orientationchange', applyScale);
-    window.addEventListener('load', applyScale);
-
-    // Content (images, fonts, GSAP-built SVG) can change height after
-    // first paint — keep re-measuring for a bit so the page height
-    // always matches what's visually shown.
-    if ('ResizeObserver' in window) {
-      new ResizeObserver(applyScale).observe(wrap);
-    } else {
-      var tries = 0;
-      var iv = setInterval(function () {
-        applyScale();
-        if (++tries > 20) clearInterval(iv);
-      }, 300);
-    }
-  })();
 </script>
 
 </body>
