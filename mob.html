@@ -592,19 +592,20 @@
     }
 
     /* ---- Book Section ---- */
-    /* Book ko rotate karne ke liye wrapper use karo */
+    /* Rotate hata diya — ab natural landscape aspect-ratio mein
+       hi full width fit hoga, isse upar-neeche wala blank space
+       khatam ho jayega */
     #bookSection {
       overflow: visible;
-      padding: 40px 0;
+      padding: 24px 0;
     }
     .scroll-container {
       width: 100%;
       max-width: 100%;
-      aspect-ratio: auto;
-      height: 85vh;
-      min-height: 500px;
-      transform: rotate(90deg) scale(0.85) !important;
-      transform-origin: center center !important;
+      aspect-ratio: 1624 / 923;
+      height: auto;
+      min-height: unset;
+      transform: none !important;
       margin: 0 auto;
     }
     #lineSvg {
@@ -612,8 +613,7 @@
       margin-left: 0;
     }
     .journey-text span {
-      font-size: clamp(28px, 10vw, 50px);
-      transform: rotate(-93deg);
+      font-size: clamp(20px, 7vw, 50px);
     }
     .dim-overlay {
       border-radius: 12px;
