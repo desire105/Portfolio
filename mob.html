@@ -372,6 +372,11 @@
     /* ============================================================
        ORIGINAL BOOK LINE ANIMATION STYLES
        ============================================================ */
+    .scroll-container-outer {
+        position: relative;
+        width: 100%;
+    }
+
     .scroll-container {
         position: relative;
         width: 110%;
@@ -591,29 +596,43 @@
       display: none !important;
     }
 
-    /* ---- Book Section ---- */
-    /* Rotate hata diya — ab natural landscape aspect-ratio mein
-       hi full width fit hoga, isse upar-neeche wala blank space
-       khatam ho jayega */
+    /* ---- Book Section (90deg rotated, no blank space) ---- */
+    /* Outer wrapper ki height PEHLE SE calculate ki hui hai ki
+       90deg rotate hone ke baad content ka visual size kitna
+       hoga — isliye layout aur visual dono match karte hain aur
+       koi blank gap nahi banta.
+       Maths: pre-rotation box = width A x height B (A/B = 1624/923).
+       Rotate 90deg => visual width = B, visual height = A.
+       Hum visual width = 100vw chahte hain => B = 100vw
+       => A = 100vw * (1624/923) (yahi outer wrapper ki height hai). */
     #bookSection {
       overflow: visible;
       padding: 24px 0;
     }
-    .scroll-container {
+    .scroll-container-outer {
       width: 100%;
-      max-width: 100%;
-      aspect-ratio: 1624 / 923;
-      height: auto;
-      min-height: unset;
-      transform: none !important;
-      margin: 0 auto;
+      height: calc(100vw * 1624 / 923);
+      overflow: hidden;
+    }
+    .scroll-container {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: calc(100vw * 1624 / 923); /* = A, pre-rotation width */
+      height: 100vw;                   /* = B, pre-rotation height */
+      max-width: none;
+      aspect-ratio: unset;
+      transform: translate(-50%, -50%) rotate(90deg) !important;
+      transform-origin: center center !important;
+      margin: 0;
     }
     #lineSvg {
       width: 100%;
       margin-left: 0;
     }
     .journey-text span {
-      font-size: clamp(20px, 7vw, 50px);
+      font-size: clamp(28px, 10vw, 50px);
+      transform: rotate(-93deg);
     }
     .dim-overlay {
       border-radius: 12px;
@@ -809,6 +828,7 @@
      ============================================================ -->
 <div id="bookSection">
 
+    <div class="scroll-container-outer" id="scrollOuter">
     <div class="scroll-container" id="scrollContainer">
 
         <object
@@ -827,6 +847,7 @@
 
         <div class="journey-text" id="journeyText"><span>My Journey</span></div>
 
+    </div>
     </div>
 
     <div class="section2-wrap" id="metro">
@@ -1141,7 +1162,7 @@
             // !important hi apply hota rahega, koi conflict nahi.
             const tlMobile = gsap.timeline({
                 scrollTrigger: {
-                    trigger: ".scroll-container",
+                    trigger: "#scrollOuter",   // naya wrapper — sahi flow-space ke liye
                     start: "top top",
                     end: "+=1200",      // mobile ke liye kam scroll-distance
                     scrub: 1.5,
