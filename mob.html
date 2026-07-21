@@ -265,12 +265,6 @@
     /* ============================================================
        GUJARATI INTRO + DOOR-SPLIT-OPEN (SECTION 2 ONLY)
        ============================================================ */
-    .section2-outer {
-        position: relative;
-        width: 100%;
-        scroll-margin-top: 100px;
-    }
-
     .section2-wrap {
         position: relative;
         width: 100%;
@@ -644,35 +638,20 @@
       border-radius: 12px;
     }
 
-    /* ---- Metro Section (90deg rotated, no blank space) ---- */
-    /* Same maths as Book section: outer wrapper ki height
-       pehle se calculate hai (rotate hone ke baad ka visual
-       size), andar wala box us hisaab se sized hai. */
-    .section2-outer {
-      width: 100%;
-      height: 115vw;   /* desired final visual height on mobile */
-      overflow: hidden;
-      position: relative;
-    }
+    /* ---- Metro Section ---- */
     .section2-wrap {
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      width: 115vw;     /* = A, pre-rotation width */
-      height: 100vw;    /* = B, pre-rotation height (= visual width) */
-      margin: 0;
-      transform: translate(-50%, -50%) rotate(90deg) !important;
-      transform-origin: center center !important;
-      scroll-margin-top: 0;
+      height: 700px;
+      min-height: 700px;
+      position: relative;
+      overflow: hidden;
     }
     .section {
-      width: 100%;
       height: 100%;
       position: relative;
       overflow: hidden;
     }
     .bg-slider {
-      top: 25%;
+      top: 180px;
       height: 65%;
     }
     .bg-slide img {
@@ -683,7 +662,7 @@
       object-fit: cover;
     }
     .fg-image {
-      top: 15%;
+      top: 120px;
       height: 80%;
     }
     .arrow {
@@ -871,8 +850,7 @@
     </div>
     </div>
 
-    <div class="section2-outer" id="metro">
-    <div class="section2-wrap" id="metroWrap">
+    <div class="section2-wrap" id="metro">
 
         <section class="section">
 
@@ -920,7 +898,6 @@
             </div>
         </div>
 
-    </div>
     </div>
 
 </div>
