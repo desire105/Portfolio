@@ -493,6 +493,7 @@
         object-fit: cover;
         display: block;
     }
+    
 
     /* Foreground PNG */
     .fg-image {
@@ -654,6 +655,7 @@
       top: 180px;
       height: 65%;
     }
+
     .bg-slide img {
       width: 85%;
       margin: 0 auto;
@@ -661,6 +663,7 @@
       height: 100%;
       object-fit: cover;
     }
+    
     .fg-image {
       top: 120px;
       height: 80%;
@@ -744,6 +747,39 @@
       height: 300px;
     }
   }
+  /* Mobile */
+@media (max-width: 768px) {
+
+    .bg-slider {
+        width: 100%;
+        overflow: hidden;
+    }
+
+    .bg-track {
+        display: flex;
+    }
+
+    .bg-slide {
+        width: 100%;      /* Change as needed */
+        height: 250px;    /* Adjust height */
+        flex-shrink: 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .bg-slide img {
+        width: 90%;           /* Adjust width */
+        height: 220px;        /* Adjust height */
+        margin-top: 153px;
+        margin-right: 10px;
+        margin-bottom: 20px;
+        margin-left: 10px;
+
+        object-fit: contain;  /* cover bhi use kar sakte ho */
+        display: block;
+    }
+}
 </style>
 
 <base target="_blank">
