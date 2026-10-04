@@ -515,6 +515,9 @@ img {
   width: 100%;
   height: 100%;
   display: block;
+  /* ✅ Mobile pe touch scroll allow karta hai — model touch nahi lega */
+  touch-action: pan-y !important;
+  pointer-events: none;
 }
 
 #modelFallback {
@@ -1332,7 +1335,6 @@ img {
    RESPONSIVE — 900px
    ============================================================ */
 @media (max-width: 900px) {
-  /* ---------- HERO ---------- */
   .hero {
     flex-direction: column;
     text-align: center;
@@ -1403,7 +1405,6 @@ img {
     scroll-snap-align: center;
   }
 
-  /* ---------- APPOINTMENT ---------- */
   .appt-section {
     padding: 60px 6vw 80px;
   }
@@ -1523,6 +1524,11 @@ img {
     display: none;
   }
 
+  /* ✅ "Based in Dubai / Email Us" — mobile pe hide */
+  .cc-menu-info {
+    display: none;
+  }
+
   .cc-menu-footer {
     flex-direction: column;
     gap: 20px;
@@ -1553,7 +1559,6 @@ img {
    RESPONSIVE — 576px
    ============================================================ */
 @media (max-width: 576px) {
-  /* ---------- Selected Work title: MOBILE pe chhota ---------- */
   .food-big-title {
     font-size: clamp(38px, 12vw, 58px);
     line-height: 1;
@@ -1597,7 +1602,6 @@ img {
     margin-bottom: 32px;
   }
 
-  /* Services: thoda tighter card width small screens par */
   .service-card.big,
   .service-card.small {
     flex: 0 0 82vw;
@@ -1765,6 +1769,10 @@ const canvas = document.getElementById('modelCanvas');
 const container = canvas.parentElement;
 const fallback = document.getElementById('modelFallback');
 
+/* ✅ Mobile detection */
+const isMobile = window.matchMedia('(max-width: 900px)').matches ||
+                 ('ontouchstart' in window && window.innerWidth <= 1024);
+
 const renderer = new THREE.WebGLRenderer({
   canvas,
   antialias: true,
@@ -1784,13 +1792,23 @@ scene.environment = envRT.texture;
 pmrem.dispose();
 
 const camera = new THREE.PerspectiveCamera(35, 1, 0.1, 100);
-const controls = new OrbitControls(camera, renderer.domElement);
-controls.enableDamping = true;
-controls.dampingFactor = 0.05;
-controls.autoRotate = true;
-controls.autoRotateSpeed = 1.4;
-controls.enableZoom = false;
-controls.enablePan = false;
+
+/* ✅ Desktop pe OrbitControls, Mobile pe nahi — sirf auto rotate */
+let controls = null;
+
+if (!isMobile) {
+  controls = new OrbitControls(camera, renderer.domElement);
+  controls.enableDamping = true;
+  controls.dampingFactor = 0.05;
+  controls.autoRotate = true;
+  controls.autoRotateSpeed = 1.4;
+  controls.enableZoom = false;
+  controls.enablePan = false;
+} else {
+  /* ✅ Mobile: canvas pe touch events block — page scroll normal rahega */
+  canvas.style.pointerEvents = 'none';
+  canvas.style.touchAction = 'pan-y';
+}
 
 scene.add(new THREE.AmbientLight(0xffffff, 0.7));
 scene.add(new THREE.HemisphereLight(0xffffff, 0xD9D6D2, 0.9));
@@ -1818,6 +1836,8 @@ const glassMat = new THREE.MeshPhysicalMaterial({
   envMapIntensity: 1.1
 });
 
+let loadedModel = null;
+
 loader.load(
   MODEL_PATH,
   (gltf) => {
@@ -1834,9 +1854,14 @@ loader.load(
     model.scale.setScalar(MODEL_SCALE / (Math.max(size.x, size.y, size.z) || 1));
     model.position.sub(new THREE.Box3().setFromObject(model).getCenter(new THREE.Vector3()));
     camera.position.set(0, 0.6, CAMERA_DISTANCE);
-    controls.target.set(0, 0, 0);
-    controls.update();
+    if (controls) {
+      controls.target.set(0, 0, 0);
+      controls.update();
+    } else {
+      camera.lookAt(0, 0, 0);
+    }
     scene.add(model);
+    loadedModel = model;
     window.__modelLoaded = true;
     fallback.style.display = 'none';
     canvas.style.display = 'block';
@@ -1863,6 +1888,7 @@ resize();
 
 let visible = true;
 let running = false;
+const clock = new THREE.Clock();
 
 function loop() {
   if (!visible || document.hidden) {
@@ -1870,13 +1896,23 @@ function loop() {
     return;
   }
   requestAnimationFrame(loop);
-  controls.update();
+
+  if (controls) {
+    /* Desktop — OrbitControls auto rotate */
+    controls.update();
+  } else if (loadedModel) {
+    /* ✅ Mobile — continuous 360° rotation */
+    const delta = clock.getDelta();
+    loadedModel.rotation.y += delta * 0.6; /* speed adjust kar sakte ho */
+  }
+
   renderer.render(scene, camera);
 }
 
 function start() {
   if (!running) {
     running = true;
+    clock.getDelta(); /* reset delta */
     loop();
   }
 }
