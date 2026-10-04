@@ -1,0 +1,2422 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Roy Group</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+
+<style>
+/* ============================================================
+   RESET & BASE
+   ============================================================ */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Inter', sans-serif;
+  background: #EFEBE3;
+  color: #000;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+img {
+  max-width: 100%;
+}
+
+/* ============================================================
+   NAVBAR
+   ============================================================ */
+.cc-navbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 48px;
+  height: 80px;
+  z-index: 200;
+  background: rgba(239, 235, 227, 0.95);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+}
+
+.cc-logo {
+  display: flex;
+  align-items: center;
+  height: 100%;
+}
+
+.cc-logo img {
+  height: 60px;
+  width: auto;
+  object-fit: contain;
+  display: block;
+}
+
+.cc-menu-btn,
+.cc-close-btn {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font: 500 13px 'Inter', sans-serif;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  transition: opacity 0.3s;
+}
+
+.cc-menu-btn {
+  color: #000;
+}
+
+.cc-close-btn {
+  color: #fff;
+}
+
+.cc-menu-btn:hover,
+.cc-close-btn:hover {
+  opacity: 0.6;
+}
+
+.cc-hamburger,
+.cc-close-circle {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s;
+}
+
+.cc-hamburger {
+  border: 1px solid rgba(0, 0, 0, 0.2);
+}
+
+.cc-close-circle {
+  border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+.cc-menu-btn:hover .cc-hamburger {
+  border-color: rgba(0, 0, 0, 0.5);
+  background: rgba(0, 0, 0, 0.05);
+}
+
+.cc-close-btn:hover .cc-close-circle {
+  border-color: rgba(255, 255, 255, 0.6);
+  background: rgba(255, 255, 255, 0.05);
+}
+
+/* ============================================================
+   MENU OVERLAY
+   ============================================================ */
+.cc-menu-overlay {
+  position: fixed;
+  inset: 0;
+  background: #0a0a0a;
+  z-index: 1000;
+  display: flex;
+  flex-direction: column;
+  padding: 28px 48px 40px;
+  transform: translateY(-100%);
+  visibility: hidden;
+  transition: transform 0.7s cubic-bezier(0.76, 0, 0.24, 1),
+              visibility 0s 0.7s;
+}
+
+.cc-menu-overlay.active {
+  transform: translateY(0);
+  visibility: visible;
+  transition: transform 0.7s cubic-bezier(0.76, 0, 0.24, 1),
+              visibility 0s;
+}
+
+.cc-menu-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 60px;
+  flex-shrink: 0;
+  margin-bottom: 10px;
+}
+
+.cc-menu-content {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex: 1;
+  padding: 20px 0;
+  gap: 60px;
+  min-height: 0;
+}
+
+.cc-image-stack {
+  position: relative;
+  width: 320px;
+  height: 400px;
+  flex-shrink: 0;
+}
+
+.cc-stack-img {
+  position: absolute;
+  width: 260px;
+  height: 340px;
+  border-radius: 4px;
+  overflow: hidden;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.6);
+  transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.cc-stack-img img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.cc-stack-img:nth-child(1) {
+  transform: rotate(-8deg) translate(-10px, 10px);
+  z-index: 1;
+}
+
+.cc-stack-img:nth-child(2) {
+  transform: rotate(4deg) translate(20px, -5px);
+  z-index: 2;
+}
+
+.cc-stack-img:nth-child(3) {
+  transform: rotate(-2deg) translate(40px, 15px);
+  z-index: 3;
+}
+
+.cc-stack-img:nth-child(4) {
+  transform: rotate(6deg) translate(60px, 5px);
+  z-index: 4;
+}
+
+.cc-image-stack:hover .cc-stack-img:nth-child(1) {
+  transform: rotate(-12deg) translate(-20px, 20px);
+}
+
+.cc-image-stack:hover .cc-stack-img:nth-child(2) {
+  transform: rotate(8deg) translate(30px, -15px);
+}
+
+.cc-image-stack:hover .cc-stack-img:nth-child(3) {
+  transform: rotate(-6deg) translate(50px, 25px);
+}
+
+.cc-image-stack:hover .cc-stack-img:nth-child(4) {
+  transform: rotate(10deg) translate(70px, 10px);
+}
+
+.cc-nav-links {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  flex: 1;
+  align-items: center;
+}
+
+.cc-nav-link {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(3rem, 6vw, 5.5rem);
+  font-weight: 400;
+  color: #fff;
+  text-decoration: none;
+  line-height: 1.1;
+  position: relative;
+  transition: color 0.4s,
+              transform 0.4s cubic-bezier(0.16, 1, 0.3, 1),
+              opacity 0.4s;
+  opacity: 0;
+  transform: translateY(40px);
+}
+
+.cc-menu-overlay.active .cc-nav-link {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.cc-menu-overlay.active .cc-nav-link:nth-child(1) { transition-delay: 0.15s; }
+.cc-menu-overlay.active .cc-nav-link:nth-child(2) { transition-delay: 0.22s; }
+.cc-menu-overlay.active .cc-nav-link:nth-child(3) { transition-delay: 0.29s; }
+.cc-menu-overlay.active .cc-nav-link:nth-child(4) { transition-delay: 0.36s; }
+
+.cc-nav-link::after {
+  content: '';
+  position: absolute;
+  bottom: 4px;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background: #b8a07a;
+  transition: width 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.cc-menu-overlay.active .cc-nav-link:hover {
+  color: #b8a07a;
+  transform: translateX(12px);
+  transition-delay: 0s;
+}
+
+.cc-nav-link:hover::after {
+  width: 100%;
+}
+
+.cc-menu-info {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 24px;
+  text-align: right;
+  flex-shrink: 0;
+  min-width: 200px;
+}
+
+.cc-info-text {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.6);
+  line-height: 1.8;
+}
+
+.cc-email-link {
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: #fff;
+  text-decoration: none;
+  position: relative;
+  padding-bottom: 4px;
+}
+
+.cc-email-link::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 1px;
+  background: #fff;
+  transition: width 0.3s;
+}
+
+.cc-email-link:hover::after {
+  width: 0;
+}
+
+.cc-menu-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-top: 20px;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  flex-shrink: 0;
+}
+
+.cc-social-links {
+  display: flex;
+  gap: 40px;
+}
+
+.cc-social-link {
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.5);
+  text-decoration: none;
+  transition: color 0.3s;
+}
+
+.cc-social-link:hover {
+  color: #fff;
+}
+
+/* ============================================================
+   CHARACTER REVEAL
+   ============================================================ */
+.title-reveal {
+  opacity: 0;
+  transition: opacity 0.3s;
+  display: inline-block;
+  overflow: hidden;
+  position: relative;
+}
+
+.title-reveal .char {
+  display: inline-block;
+  transform: translateY(110%);
+  opacity: 0;
+  will-change: transform, opacity;
+  transition: transform 1s cubic-bezier(0.16, 1, 0.3, 1),
+              opacity 0.8s;
+}
+
+.title-reveal .char.revealed {
+  transform: translateY(0);
+  opacity: 1;
+}
+
+.title-reveal .char-space {
+  display: inline-block;
+  width: 0.3em;
+}
+
+/* ============================================================
+   HERO
+   ============================================================ */
+.hero {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 40px;
+  padding: 100px 7vw 60px;
+  background: #EFEBE3;
+  position: relative;
+}
+
+.hero-text {
+  flex: 1 1 46%;
+  max-width: 560px;
+  z-index: 2;
+}
+
+.hero-text h1 {
+  font-size: clamp(46px, 6.2vw, 80px);
+  line-height: 1.04;
+  font-weight: 500;
+  letter-spacing: -0.035em;
+  color: #0a0a0a;
+}
+
+.hero-text h1 .dash {
+  display: inline-block;
+  width: 0.9em;
+  height: 0.09em;
+  background: #000;
+  vertical-align: middle;
+  margin: 0 0.08em;
+  border-radius: 4px;
+}
+
+.hero-text p {
+  margin: 26px 0 36px;
+  font-size: 17px;
+  line-height: 1.65;
+  letter-spacing: -0.01em;
+  color: #555;
+  max-width: 420px;
+}
+
+.btn-group {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  flex-wrap: wrap;
+}
+
+.btn-primary {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  background: #fff;
+  color: #0a0a0a;
+  padding: 16px 32px;
+  border-radius: 50px;
+  font-size: 15px;
+  font-weight: 600;
+  text-decoration: none;
+  border: 2px solid #0a0a0a;
+  cursor: pointer;
+  box-shadow: 0 8px 22px rgba(0, 0, 0, 0.08);
+  transition: transform 0.25s, box-shadow 0.25s,
+              background 0.25s, color 0.25s;
+}
+
+.btn-primary:hover {
+  transform: translateY(-3px);
+  background: #0a0a0a;
+  color: #fff;
+  box-shadow: 0 14px 32px rgba(0, 0, 0, 0.25);
+}
+
+.btn-primary svg {
+  transition: transform 0.25s;
+}
+
+.btn-primary:hover svg {
+  transform: translateX(4px);
+}
+
+.hero-stats {
+  display: flex;
+  gap: 42px;
+  margin-top: 52px;
+}
+
+.hero-stats .stat h3 {
+  font-size: 26px;
+  font-weight: 700;
+  color: #0f172a;
+}
+
+.hero-stats .stat span {
+  font-size: 13px;
+  color: #64748b;
+}
+
+.hero-visual {
+  flex: 1 1 50%;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 540px;
+}
+
+.model-frame {
+  position: relative;
+  width: 100%;
+  max-width: 470px;
+  aspect-ratio: 4 / 5;
+}
+
+.model-frame::before {
+  content: "";
+  position: absolute;
+  inset: 14%;
+  border-radius: 50%;
+  background: #D9D6D2;
+  filter: blur(30px);
+  opacity: 0.5;
+  z-index: 0;
+}
+
+.model-frame canvas {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+#modelFallback {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  color: #64748b;
+  font-size: 14px;
+  text-align: center;
+  padding: 20px;
+}
+
+#modelFallback code {
+  background: #eef2f7;
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-size: 13px;
+  color: #1e293b;
+}
+
+/* ============================================================
+   SERVICES
+   ============================================================ */
+.services {
+  padding: 20px 7vw 100px;
+  content-visibility: auto;
+  contain-intrinsic-size: auto 1100px;
+}
+
+.services-header {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 40px;
+  margin-bottom: 56px;
+}
+
+.services-header h2 {
+  font-size: clamp(60px, 10vw, 150px);
+  font-weight: 500;
+  letter-spacing: -0.035em;
+  line-height: 1.04;
+  color: #0a0a0a;
+}
+
+.services-header p {
+  max-width: 340px;
+  font-size: 15.5px;
+  line-height: 1.55;
+  color: #555;
+  padding-bottom: 6px;
+}
+
+.services-grid {
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  gap: 18px;
+}
+
+.service-card {
+  position: relative;
+  border-radius: 18px;
+  overflow: hidden;
+  cursor: pointer;
+  background: #222;
+}
+
+.service-card.big {
+  grid-column: span 6;
+  aspect-ratio: 16 / 8.5;
+}
+
+.service-card.small {
+  grid-column: span 3;
+  height: 240px;
+}
+
+.service-card img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.6s cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+
+.service-card:hover img {
+  transform: translateY(-102%);
+}
+
+.card-reveal {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(160deg, #fff 0%, #f0f4fa 100%);
+  padding: 30px 28px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  transform: translateY(102%);
+  transition: transform 0.6s cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+
+.service-card:hover .card-reveal {
+  transform: translateY(0);
+}
+
+.card-reveal h3 {
+  font-size: 21px;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  color: #0a0a0a;
+  margin-bottom: 14px;
+}
+
+.card-reveal p {
+  font-size: 15px;
+  line-height: 1.7;
+  color: #555;
+}
+
+.card-label {
+  position: absolute;
+  left: 12px;
+  right: 12px;
+  bottom: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  padding: 16px 22px;
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.8);
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  transition: background 0.3s;
+}
+
+.service-card:hover .card-label {
+  background: rgba(255, 255, 255, 0.92);
+}
+
+.card-label span {
+  font-size: 17px;
+  font-weight: 500;
+  color: #111;
+  letter-spacing: -0.01em;
+}
+
+.card-label .big-card-title {
+  font-size: 20px;
+}
+
+.arrow-btn {
+  flex-shrink: 0;
+  width: 52px;
+  height: 52px;
+  border-radius: 12px;
+  background: #fff;
+  border: none;
+  display: grid;
+  place-items: center;
+  cursor: pointer;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.12);
+  transition: transform 0.3s;
+}
+
+.service-card:hover .arrow-btn {
+  transform: rotate(45deg);
+}
+
+/* ============================================================
+   SELECTED WORK
+   ============================================================ */
+.food-work-section {
+  background: #EFEBE3;
+  padding-top: 10px;
+  padding-bottom: 80px;
+  width: 100%;
+  margin-top: 20px;
+  content-visibility: auto;
+  contain-intrinsic-size: auto 2200px;
+}
+
+.food-work-container {
+  max-width: 1600px;
+  margin: 0 auto;
+  padding: 0 64px;
+}
+
+.food-work-header {
+  padding-top: 10px;
+  padding-bottom: 32px;
+}
+
+.food-big-title {
+  font-size: clamp(80px, 12vw, 180px);
+  font-weight: 400;
+  line-height: 0.85;
+  letter-spacing: -0.04em;
+  color: #0a0a0a;
+}
+
+.food-row-1,
+.food-row-2 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 64px;
+}
+
+.food-row-2 {
+  margin-top: 96px;
+}
+
+.food-work-card {
+  position: relative;
+  overflow: hidden;
+  background: #EFEBE3;
+  border-radius: 4px;
+}
+
+.food-work-card img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.5s;
+}
+
+.food-work-card:hover img {
+  transform: scale(1.03);
+}
+
+.food-card-big {
+  width: 93%;
+  height: 750px;
+  margin-left: 90px;
+}
+
+.food-card-small {
+  width: 80%;
+  height: 400px;
+  margin-left: 35px;
+  margin-top: 220px;
+}
+
+.food-right-column {
+  display: flex;
+  flex-direction: column;
+  margin-top: 10px;
+  margin-left: auto;
+  padding-left: 80px;
+  width: 100%;
+  max-width: 600px;
+}
+
+.food-featured-text {
+  margin-bottom: 48px;
+  margin-left: 20px;
+}
+
+.food-featured-label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
+  color: #1a1a1a;
+  margin-bottom: 16px;
+}
+
+.food-featured-desc {
+  font-size: 24px;
+  line-height: 1.6;
+  color: #1a1a1a;
+  max-width: 450px;
+  font-weight: 300;
+}
+
+.food-card-label {
+  margin-top: 16px;
+  font-size: 14px;
+  color: #1a1a1a;
+}
+
+.food-card-title {
+  font-weight: 500;
+}
+
+.food-card-subtitle {
+  color: #666;
+}
+
+.food-separator {
+  color: #999;
+  margin: 0 8px;
+}
+
+.food-left-card-wrap {
+  width: 50%;
+  margin-top: 530px;
+  margin-left: 90px;
+}
+
+.food-left-card-wrap .food-work-card {
+  height: 300px;
+}
+
+.food-right-card-wrap {
+  width: 85%;
+  margin-left: -120px;
+  margin-top: 50px;
+}
+
+.food-right-card-wrap .food-work-card {
+  height: 600px;
+}
+
+/* ============================================================
+   REVIEWS
+   ============================================================ */
+.noho-scope {
+  background: #EFEBE3;
+  color: #2E2B27;
+  padding-top: 40px;
+  -webkit-font-smoothing: antialiased;
+}
+
+.noho-scope .noho-heading {
+  font-weight: 500;
+  font-size: clamp(60px, 12vw, 140px);
+  line-height: 0.85;
+  letter-spacing: -0.04em;
+  color: #0a0a0a;
+  padding: 0 64px;
+}
+
+.noho-scope .stack-wrapper {
+  position: relative;
+  height: 500vh;
+}
+
+.noho-scope .stack-sticky {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+}
+
+.noho-scope .stack-track {
+  position: relative;
+  height: 520px;
+  max-height: 66vh;
+  width: 100%;
+  padding-left: clamp(24px, 5vw, 64px);
+  overflow: hidden;
+}
+
+.noho-scope .story-card {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  background: var(--card-bg);
+  padding: clamp(28px, 3.2vw, 48px) clamp(24px, 3vw, 40px) clamp(24px, 2.6vw, 36px);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  will-change: transform;
+}
+
+.noho-scope .card-dot {
+  position: absolute;
+  top: clamp(24px, 3vw, 40px);
+  right: clamp(24px, 3vw, 40px);
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: #2E2B27;
+}
+
+.noho-scope .story-card h2 {
+  font-size: clamp(22px, 2.4vw, 30px);
+  line-height: 1.2;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  margin: 0 0 18px;
+  max-width: 92%;
+}
+
+.noho-scope .story-card p {
+  font-size: 15px;
+  line-height: 1.55;
+  color: #3B4A63;
+  max-width: 95%;
+}
+
+.noho-scope .card-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-top: 24px;
+}
+
+.noho-scope .card-footer .date {
+  font-size: 13px;
+  font-weight: 700;
+  color: #2E2B27;
+  white-space: nowrap;
+}
+
+.noho-scope .card-footer .category {
+  font-size: 13px;
+  color: #98907F;
+  white-space: nowrap;
+}
+
+.noho-scope .card-footer .read-link {
+  font-size: 13px;
+  font-weight: 600;
+  color: #2E2B27;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  white-space: nowrap;
+  margin-left: auto;
+}
+
+.noho-scope .card-footer .read-link:hover {
+  text-decoration: underline;
+}
+
+.noho-scope .progress-dots {
+  position: absolute;
+  bottom: 8vh;
+  left: 0;
+  right: 0;
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+}
+
+.noho-scope .progress-dots span {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: rgba(0, 0, 0, 0.2);
+  transition: background 0.3s;
+}
+
+.noho-scope .progress-dots span.active {
+  background: #0a0a0a;
+}
+
+/* ============================================================
+   APPOINTMENT
+   ============================================================ */
+.appt-section {
+  background: #EFEBE3;
+  padding: 90px 7vw 100px;
+  content-visibility: auto;
+  contain-intrinsic-size: auto 1000px;
+}
+
+/* Appointment heading — exact style of "Our Reviews" */
+.appt-heading {
+  font-weight: 500;
+  font-size: clamp(60px, 7.7vw, 140px);
+  line-height: 0.85;
+  letter-spacing: -0.04em;
+  color: #0a0a0a;
+  margin-bottom: 60px;
+  padding: 0;
+  display: block;
+}
+
+/* Force block so it doesn't shrink-wrap like inline-block */
+.appt-heading.title-reveal {
+  display: block;
+}
+
+.appt-content {
+  display: flex;
+  gap: 60px;
+  align-items: flex-start;
+  justify-content: space-between;
+}
+
+.appt-left {
+  flex: 1 1 45%;
+  max-width: 520px;
+}
+
+.appt-left p {
+  font-size: 17px;
+  line-height: 1.65;
+  color: #555;
+  max-width: 400px;
+  margin-bottom: 36px;
+}
+
+.appt-contact-info div {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 14px 0;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+  font-size: 15px;
+  font-weight: 500;
+  color: #1a1a1a;
+}
+
+.appt-contact-info svg {
+  flex-shrink: 0;
+}
+
+.appt-form-wrap {
+  flex: 1 1 50%;
+  max-width: 560px;
+}
+
+.appt-form {
+  background: #fff;
+  border: 2px solid #0a0a0a;
+  border-radius: 20px;
+  padding: 40px 36px;
+  box-shadow: 8px 8px 0 #0a0a0a;
+}
+
+.appt-form .form-title {
+  font-size: 22px;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  color: #0a0a0a;
+  margin-bottom: 26px;
+}
+
+.form-row {
+  display: flex;
+  gap: 14px;
+}
+
+.form-group {
+  flex: 1;
+  margin-bottom: 16px;
+}
+
+.appt-form label {
+  display: block;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #555;
+  margin-bottom: 7px;
+}
+
+.appt-form input,
+.appt-form select,
+.appt-form textarea {
+  width: 100%;
+  padding: 14px 16px;
+  font: 15px 'Inter', sans-serif;
+  color: #0a0a0a;
+  background: #F7F5F0;
+  border: 1px solid #ddd6c9;
+  border-radius: 10px;
+  outline: none;
+  transition: border-color 0.25s, box-shadow 0.25s;
+}
+
+.appt-form input:focus,
+.appt-form select:focus,
+.appt-form textarea:focus {
+  border-color: #0a0a0a;
+  box-shadow: 0 0 0 3px rgba(10, 10, 10, 0.08);
+}
+
+.appt-form textarea {
+  resize: vertical;
+  min-height: 90px;
+}
+
+.appt-submit {
+  width: 100%;
+  margin-top: 8px;
+  padding: 17px 24px;
+  font: 700 15px 'Inter', sans-serif;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: #fff;
+  background: #0a0a0a;
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  transition: transform 0.25s, box-shadow 0.25s;
+}
+
+.appt-submit:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.3);
+}
+
+.form-success {
+  display: none;
+  margin-top: 18px;
+  padding: 14px 18px;
+  background: #e8f5e9;
+  border: 1px solid #a5d6a7;
+  border-radius: 10px;
+  font-size: 14.5px;
+  font-weight: 500;
+  color: #2e7d32;
+  text-align: center;
+}
+
+/* ============================================================
+   FOOTER
+   ============================================================ */
+.site-footer {
+  padding: 8vw 6vw 4vw;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  min-height: 90vh;
+  background: #000;
+  color: #fff;
+}
+
+.talk {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-weight: 400;
+  font-size: clamp(3.5rem, 11vw, 9rem);
+  line-height: 0.95;
+  text-align: center;
+  letter-spacing: -0.01em;
+  color: #fff;
+}
+
+.footer-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 3rem;
+  margin-top: 8vw;
+}
+
+.col:last-child {
+  text-align: right;
+}
+
+.col-label {
+  font-size: 0.75rem;
+  letter-spacing: 0.08em;
+  color: #6b6b6b;
+  margin-bottom: 1.25rem;
+}
+
+.col a,
+.col p {
+  display: block;
+  font-weight: 700;
+  font-size: 0.85rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  text-decoration: none;
+  color: #fff;
+  line-height: 1.9;
+}
+
+.col a {
+  position: relative;
+  width: fit-content;
+}
+
+.col:last-child a {
+  margin-left: auto;
+}
+
+.col a::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: 2px;
+  width: 100%;
+  height: 1px;
+  background: #fff;
+  transform: scaleX(0);
+  transform-origin: right;
+  transition: transform 0.3s;
+}
+
+.col a:hover::after {
+  transform: scaleX(1);
+  transform-origin: left;
+}
+
+.footer-map {
+  margin-top: 1.5rem;
+  width: 100%;
+  max-width: 320px;
+  margin-left: auto;
+  border-radius: 8px;
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+  filter: grayscale(0.3) contrast(1.05);
+  transition: filter 0.35s, transform 0.35s;
+}
+
+.footer-map:hover {
+  filter: none;
+  transform: translateY(-3px);
+}
+
+.footer-map iframe {
+  display: block;
+  width: 100%;
+  height: 180px;
+  border: 0;
+}
+
+/* ============================================================
+   RESPONSIVE — 1200px
+   ============================================================ */
+@media (max-width: 1200px) {
+  .food-big-title {
+    font-size: clamp(60px, 10vw, 150px);
+  }
+
+  .food-card-big {
+    height: 600px;
+    margin-left: 40px;
+  }
+
+  .food-card-small {
+    height: 350px;
+    margin-top: 150px;
+  }
+
+  .food-left-card-wrap {
+    margin-top: 400px;
+    margin-left: 40px;
+  }
+
+  .food-right-card-wrap {
+    margin-left: -60px;
+  }
+}
+
+/* ============================================================
+   RESPONSIVE — 992px
+   ============================================================ */
+@media (max-width: 992px) {
+  .food-work-container {
+    padding: 0 32px;
+  }
+
+  .food-row-1,
+  .food-row-2 {
+    grid-template-columns: 1fr;
+    gap: 48px;
+  }
+
+  .food-card-big {
+    width: 100%;
+    height: 500px;
+    margin-left: 0;
+  }
+
+  .food-card-small {
+    width: 100%;
+    height: 350px;
+    margin-left: 0;
+    margin-top: 40px;
+  }
+
+  .food-right-column {
+    margin-top: 40px;
+    padding-left: 0;
+    max-width: 100%;
+  }
+
+  .food-featured-text {
+    margin-left: 0;
+  }
+
+  .food-left-card-wrap {
+    width: 100%;
+    margin-top: 0;
+    margin-left: 0;
+  }
+
+  .food-left-card-wrap .food-work-card {
+    height: 400px;
+  }
+
+  .food-right-card-wrap {
+    width: 100%;
+    margin-left: 0;
+    margin-top: 0;
+  }
+
+  .food-right-card-wrap .food-work-card {
+    height: 500px;
+  }
+}
+
+/* ============================================================
+   RESPONSIVE — 900px
+   ============================================================ */
+@media (max-width: 900px) {
+  .hero {
+    flex-direction: column;
+    text-align: center;
+    padding: 100px 6vw 70px;
+    gap: 10px;
+  }
+
+  .hero-text p {
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .btn-group,
+  .hero-stats {
+    justify-content: center;
+  }
+
+  .hero-visual {
+    min-height: auto;
+    width: 100%;
+    max-width: 360px;
+  }
+
+  .services-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 18px;
+  }
+
+  .services-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .service-card.big,
+  .service-card.small {
+    grid-column: span 1;
+    aspect-ratio: 4 / 3;
+    height: auto;
+  }
+
+  .appt-section {
+    padding: 60px 6vw 80px;
+  }
+
+  .appt-heading {
+    margin-bottom: 40px;
+  }
+
+  .appt-content {
+    flex-direction: column;
+    gap: 40px;
+  }
+
+  .appt-left,
+  .appt-form-wrap {
+    max-width: 100%;
+    width: 100%;
+  }
+
+  .form-row {
+    flex-direction: column;
+    gap: 0;
+  }
+
+  .appt-form {
+    padding: 30px 24px;
+  }
+}
+
+/* ============================================================
+   RESPONSIVE — 767px (Reviews horizontal scroll)
+   ============================================================ */
+@media (max-width: 767px), (prefers-reduced-motion: reduce) {
+  .noho-scope .stack-wrapper {
+    height: auto;
+  }
+
+  .noho-scope .stack-sticky {
+    position: static;
+    height: auto;
+    overflow: visible;
+  }
+
+  .noho-scope .stack-track {
+    overflow-x: auto;
+    overflow-y: hidden;
+    max-height: none;
+    padding-right: 24px;
+    display: flex;
+    gap: 0;
+    height: auto;
+    width: 100% !important;
+  }
+
+  .noho-scope .story-card {
+    position: static !important;
+    flex: 0 0 82vw;
+    height: 440px;
+    width: auto !important;
+    transform: none !important;
+  }
+
+  .noho-scope .progress-dots {
+    display: none;
+  }
+}
+
+/* ============================================================
+   RESPONSIVE — 768px
+   ============================================================ */
+@media (max-width: 768px) {
+  .cc-navbar {
+    padding: 0 24px;
+  }
+}
+
+/* ============================================================
+   RESPONSIVE — 640px
+   ============================================================ */
+@media (max-width: 640px) {
+  .cc-navbar .cc-logo img {
+    height: 70px;
+  }
+
+  .cc-menu-overlay {
+    padding: 20px 24px 30px;
+  }
+
+  .cc-nav-link {
+    font-size: clamp(2.2rem, 10vw, 3.5rem);
+  }
+
+  .cc-image-stack {
+    display: none;
+  }
+
+  .cc-menu-footer {
+    flex-direction: column;
+    gap: 20px;
+    text-align: center;
+  }
+
+  .footer-grid {
+    grid-template-columns: 1fr;
+    gap: 2.5rem;
+    text-align: left !important;
+  }
+
+  .col:last-child {
+    text-align: left;
+  }
+
+  .col:last-child a {
+    margin-left: 0;
+  }
+
+  .footer-map {
+    margin-left: 0;
+    max-width: 100%;
+  }
+}
+
+/* ============================================================
+   RESPONSIVE — 576px
+   ============================================================ */
+@media (max-width: 576px) {
+  .food-big-title {
+    font-size: 60px;
+  }
+
+  .food-work-container {
+    padding: 0 20px;
+  }
+
+  .food-featured-desc {
+    font-size: 18px;
+  }
+
+  .food-card-big {
+    height: 400px;
+  }
+
+  .food-card-small {
+    height: 280px;
+  }
+
+  .food-left-card-wrap .food-work-card {
+    height: 300px;
+  }
+
+  .food-right-card-wrap .food-work-card {
+    height: 380px;
+  }
+
+  .noho-scope .noho-heading {
+    padding: 0 20px;
+  }
+
+  .appt-heading {
+    font-size: clamp(44px, 14vw, 80px);
+    margin-bottom: 32px;
+  }
+}
+
+/* ============================================================
+   RESPONSIVE — 480px
+   ============================================================ */
+@media (max-width: 480px) {
+  .cc-navbar .cc-logo img {
+    height: 55px;
+  }
+}
+
+/* ============================================================
+   REDUCED MOTION
+   ============================================================ */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+  }
+}
+</style>
+</head>
+<body>
+
+<!-- ============================================================
+     NAVBAR
+     ============================================================ -->
+<nav class="cc-navbar">
+  <div class="cc-logo">
+    <img src="img/WhatsApp_Image_2026-10-03_at_4.49.19_PM-removebg-preview.png" alt="Roy Group Logo" fetchpriority="high" decoding="async">
+  </div>
+  <button class="cc-menu-btn" onclick="toggleMenu()" aria-label="Open menu">
+    <span>Menu</span>
+    <div class="cc-hamburger">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+        <line x1="3" y1="6" x2="21" y2="6" />
+        <line x1="3" y1="12" x2="21" y2="12" />
+        <line x1="3" y1="18" x2="21" y2="18" />
+      </svg>
+    </div>
+  </button>
+</nav>
+
+<!-- ============================================================
+     MENU OVERLAY
+     ============================================================ -->
+<div class="cc-menu-overlay" id="menuOverlay">
+  <div class="cc-menu-header">
+    <div class="cc-logo"></div>
+    <button class="cc-close-btn" onclick="toggleMenu()" aria-label="Close menu">
+      <span>Close</span>
+      <div class="cc-close-circle">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+          <line x1="18" y1="6" x2="6" y2="18" />
+          <line x1="6" y1="6" x2="18" y2="18" />
+        </svg>
+      </div>
+    </button>
+  </div>
+  <div class="cc-menu-content">
+    <div class="cc-image-stack">
+      <div class="cc-stack-img"><img loading="lazy" decoding="async" width="260" height="340" src="img1/505388814_17842580271513364_297797104839180552_n.jpg" alt="Film 1"></div>
+      <div class="cc-stack-img"><img loading="lazy" decoding="async" width="260" height="340" src="img1/523102195_17850613014513364_2751607192450431514_n.webp" alt="Film 2"></div>
+      <div class="cc-stack-img"><img loading="lazy" decoding="async" width="260" height="340" src="img1/IMG2962.JPG" alt="Film 3"></div>
+      <div class="cc-stack-img"><img loading="lazy" decoding="async" width="260" height="340" src="img1/WhatsApp%20Image%202026-04-17%20at%208.26.40%20PM.jpeg" alt="Film 4"></div>
+    </div>
+    <nav class="cc-nav-links">
+      <a href="#" class="cc-nav-link">Home</a>
+      <a href="#" class="cc-nav-link">Portfolio</a>
+      <a href="#" class="cc-nav-link">About</a>
+      <a href="#" class="cc-nav-link">Contact</a>
+    </nav>
+    <div class="cc-menu-info">
+      <p class="cc-info-text">Based in Dubai, UAE<br>Operating Worldwide</p>
+      <a href="mailto:hello@cinecasero.com" class="cc-email-link">Email Us</a>
+    </div>
+  </div>
+  <div class="cc-menu-footer">
+    <div class="cc-social-links">
+      <a href="#" class="cc-social-link">Instagram</a>
+      <a href="#" class="cc-social-link">LinkedIn</a>
+    </div>
+  </div>
+</div>
+
+<!-- ============================================================
+     HERO
+     ============================================================ -->
+<section class="hero">
+  <div class="hero-text">
+    <h1>Your Smile <span class="dash"></span> Is Our Care</h1>
+    <p>Modern, pain-free dentistry for the whole family. Proudly serving our community since 2010 — because every smile deserves expert attention.</p>
+    <div class="btn-group">
+      <a href="#appointment" class="btn-primary">
+        Book Your Appointment
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M5 12h14M13 6l6 6-6 6" />
+        </svg>
+      </a>
+    </div>
+    <div class="hero-stats">
+      <div class="stat"><h3>15+</h3><span>Years Experience</span></div>
+      <div class="stat"><h3>10k+</h3><span>Happy Patients</span></div>
+      <div class="stat"><h3>4.6★</h3><span>Rated Clinic</span></div>
+    </div>
+  </div>
+  <div class="hero-visual">
+    <div class="model-frame" id="modelFrame">
+      <canvas id="modelCanvas"></canvas>
+      <div id="modelFallback" style="display:none;">
+        <svg viewBox="0 0 300 340" width="200" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <linearGradient id="fb1" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0%" stop-color="#e7e5e0" />
+              <stop offset="100%" stop-color="#bdb8ae" />
+            </linearGradient>
+          </defs>
+          <path fill="url(#fb1)" d="M150 28C92 28 40 62 40 132c0 56 26 84 34 130 6 34 16 60 30 60s16-30 18-60c3-38 12-62 28-62s25 24 28 62c2 30 4 60 18 60s24-26 30-60c8-46 34-74 34-130 0-70-52-104-110-104z" />
+          <ellipse cx="105" cy="105" rx="42" ry="62" fill="#fff" opacity=".6" transform="rotate(-18 105 105)" />
+        </svg>
+        <div class="fallback-msg">
+          3D model load nahi hua.<br>
+          Check: <code>img/white_mesh.glb</code><br>
+          Local server use karo: <code>python -m http.server 8000</code>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script type="importmap">
+{
+  "imports": {
+    "three": "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js",
+    "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"
+  }
+}
+</script>
+
+<script type="module">
+import * as THREE from 'three';
+import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
+import { DRACOLoader } from 'three/addons/loaders/DRACOLoader.js';
+import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
+import { RoomEnvironment } from 'three/addons/environments/RoomEnvironment.js';
+
+const MODEL_PATH = 'img/white_mesh.glb';
+const MODEL_SCALE = 2.7;
+const CAMERA_DISTANCE = 6.0;
+
+const canvas = document.getElementById('modelCanvas');
+const container = canvas.parentElement;
+const fallback = document.getElementById('modelFallback');
+
+const renderer = new THREE.WebGLRenderer({
+  canvas,
+  antialias: true,
+  alpha: true,
+  powerPreference: 'high-performance'
+});
+renderer.setPixelRatio(Math.min(window.devicePixelRatio, 1.25));
+renderer.outputColorSpace = THREE.SRGBColorSpace;
+renderer.toneMapping = THREE.ACESFilmicToneMapping;
+renderer.toneMappingExposure = 1.1;
+renderer.setClearColor(0x000000, 0);
+
+const scene = new THREE.Scene();
+const pmrem = new THREE.PMREMGenerator(renderer);
+const envRT = pmrem.fromScene(new RoomEnvironment(), 0.06);
+scene.environment = envRT.texture;
+pmrem.dispose();
+
+const camera = new THREE.PerspectiveCamera(35, 1, 0.1, 100);
+const controls = new OrbitControls(camera, renderer.domElement);
+controls.enableDamping = true;
+controls.dampingFactor = 0.05;
+controls.autoRotate = true;
+controls.autoRotateSpeed = 1.4;
+controls.enableZoom = false;
+controls.enablePan = false;
+
+scene.add(new THREE.AmbientLight(0xffffff, 0.7));
+scene.add(new THREE.HemisphereLight(0xffffff, 0xD9D6D2, 0.9));
+const key = new THREE.DirectionalLight(0xffffff, 3.0);
+key.position.set(-6, 6, 4);
+scene.add(key);
+const rim = new THREE.DirectionalLight(0xffffff, 1.5);
+rim.position.set(2, 3, -7);
+scene.add(rim);
+
+const draco = new DRACOLoader();
+draco.setDecoderPath('https://www.gstatic.com/draco/versioned/decoders/1.5.6/');
+const loader = new GLTFLoader();
+loader.setDRACOLoader(draco);
+
+const glassMat = new THREE.MeshPhysicalMaterial({
+  color: 0xF6F5F2,
+  roughness: 0.35,
+  metalness: 0,
+  transmission: 0,
+  opacity: 0.92,
+  transparent: true,
+  clearcoat: 0.2,
+  clearcoatRoughness: 0.4,
+  envMapIntensity: 1.1
+});
+
+loader.load(
+  MODEL_PATH,
+  (gltf) => {
+    const model = gltf.scene;
+    model.traverse((o) => {
+      if (!o.isMesh) return;
+      o.material = glassMat;
+      if (o.geometry && !o.geometry.attributes.normal) o.geometry.computeVertexNormals();
+      o.castShadow = false;
+      o.receiveShadow = false;
+    });
+    const box = new THREE.Box3().setFromObject(model);
+    const size = box.getSize(new THREE.Vector3());
+    model.scale.setScalar(MODEL_SCALE / (Math.max(size.x, size.y, size.z) || 1));
+    model.position.sub(new THREE.Box3().setFromObject(model).getCenter(new THREE.Vector3()));
+    camera.position.set(0, 0.6, CAMERA_DISTANCE);
+    controls.target.set(0, 0, 0);
+    controls.update();
+    scene.add(model);
+    window.__modelLoaded = true;
+    fallback.style.display = 'none';
+    canvas.style.display = 'block';
+    resize();
+  },
+  undefined,
+  (err) => {
+    console.error('Model load FAILED:', err);
+    canvas.style.display = 'none';
+    fallback.style.display = 'flex';
+  }
+);
+
+function resize() {
+  const w = container.clientWidth;
+  const h = container.clientHeight;
+  if (!w || !h) return;
+  renderer.setSize(w, h, false);
+  camera.aspect = w / h;
+  camera.updateProjectionMatrix();
+}
+new ResizeObserver(resize).observe(container);
+resize();
+
+let visible = true;
+let running = false;
+
+function loop() {
+  if (!visible || document.hidden) {
+    running = false;
+    return;
+  }
+  requestAnimationFrame(loop);
+  controls.update();
+  renderer.render(scene, camera);
+}
+
+function start() {
+  if (!running) {
+    running = true;
+    loop();
+  }
+}
+
+new IntersectionObserver(([e]) => {
+  visible = e.isIntersecting;
+  if (visible) start();
+}).observe(container);
+
+document.addEventListener('visibilitychange', () => {
+  if (!document.hidden) start();
+});
+
+start();
+</script>
+
+<script>
+setTimeout(function () {
+  if (!window.__modelLoaded) {
+    document.getElementById('modelCanvas').style.display = 'none';
+    document.getElementById('modelFallback').style.display = 'flex';
+  }
+}, 15000);
+</script>
+
+<!-- ============================================================
+     SERVICES
+     ============================================================ -->
+<section class="services">
+  <div class="services-header">
+    <h2>Our Services</h2>
+    <p>We offer a wide range of dental services. Your health is our main mission.</p>
+  </div>
+  <div class="services-grid">
+
+    <div class="service-card big">
+      <img loading="lazy" decoding="async" width="800" height="425" src="img2/teeth-whitening.jpg" alt="Teeth whitening">
+      <div class="card-label">
+        <span class="big-card-title">Teeth whitening</span>
+        <button class="arrow-btn" aria-label="View">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#111" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M7 17L17 7M9 7h8v8" />
+          </svg>
+        </button>
+      </div>
+      <div class="card-reveal">
+        <h3>Teeth whitening</h3>
+        <p>Safely removes years of stains for a visibly brighter smile in one session.</p>
+      </div>
+    </div>
+
+    <div class="service-card big">
+      <img loading="lazy" decoding="async" width="800" height="425" src="img2/Image-Jun-25-2026-05_31_36-PM_11zon.jpg" alt="Dental implants">
+      <div class="card-label">
+        <span class="big-card-title">Dental implants</span>
+        <button class="arrow-btn" aria-label="View">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#111" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M7 17L17 7M9 7h8v8" />
+          </svg>
+        </button>
+      </div>
+      <div class="card-reveal">
+        <h3>Dental implants</h3>
+        <p>Permanent, natural-looking replacement for missing teeth using titanium implants.</p>
+      </div>
+    </div>
+
+    <div class="service-card small">
+      <img loading="lazy" decoding="async" width="400" height="240" src="img2/For_patinets_slider1.jpg" alt="Paediatrics">
+      <div class="card-label">
+        <span>Paediatrics</span>
+        <button class="arrow-btn" aria-label="View">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#111" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M7 17L17 7M9 7h8v8" />
+          </svg>
+        </button>
+      </div>
+      <div class="card-reveal">
+        <h3>Paediatrics</h3>
+        <p>Gentle, friendly dental care designed specially for children.</p>
+      </div>
+    </div>
+
+    <div class="service-card small">
+      <img loading="lazy" decoding="async" width="400" height="240" src="img2/The-Benefits-of-Early-Dental-Care.jpg" alt="Root canals">
+      <div class="card-label">
+        <span>Root canals</span>
+        <button class="arrow-btn" aria-label="View">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#111" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M7 17L17 7M9 7h8v8" />
+          </svg>
+        </button>
+      </div>
+      <div class="card-reveal">
+        <h3>Root canals</h3>
+        <p>Painless therapy that saves your infected tooth and preserves your natural smile.</p>
+      </div>
+    </div>
+
+    <div class="service-card small">
+      <img loading="lazy" decoding="async" width="400" height="240" src="img2/Dental-cleaning.jpg" alt="Teeth cleaning">
+      <div class="card-label">
+        <span>Teeth cleaning</span>
+        <button class="arrow-btn" aria-label="View">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#111" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M7 17L17 7M9 7h8v8" />
+          </svg>
+        </button>
+      </div>
+      <div class="card-reveal">
+        <h3>Teeth cleaning</h3>
+        <p>Deep scaling that removes plaque and tartar for healthy gums and fresh breath.</p>
+      </div>
+    </div>
+
+    <div class="service-card small">
+      <img loading="lazy" decoding="async" width="400" height="240" src="img2/imageshj.jpg" alt="Teeth reshaping">
+      <div class="card-label">
+        <span>Teeth reshaping</span>
+        <button class="arrow-btn" aria-label="View">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#111" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M7 17L17 7M9 7h8v8" />
+          </svg>
+        </button>
+      </div>
+      <div class="card-reveal">
+        <h3>Teeth reshaping</h3>
+        <p>Gently reshapes uneven or chipped teeth for a perfectly balanced smile.</p>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ============================================================
+     SELECTED WORK
+     ============================================================ -->
+<section class="food-work-section" id="foodWorkSection">
+  <div class="food-work-header">
+    <div class="food-work-container">
+      <h1 class="food-big-title title-reveal" id="selectedWorkTitle">Selected Work</h1>
+    </div>
+  </div>
+  <div class="food-work-container">
+    <div class="food-row-1">
+      <div>
+        <div class="food-work-card food-card-big">
+          <img loading="lazy" decoding="async" src="img2/teeth-whitening.jpg" alt="Teeth Whitening">
+        </div>
+        <div class="food-card-label" style="margin-left:90px;">
+          <span class="food-card-title">Teeth Whitening</span>
+          <span class="food-separator">—</span>
+          <span class="food-card-subtitle">Brighter, Confident Smiles</span>
+        </div>
+      </div>
+      <div class="food-right-column">
+        <div class="food-featured-text">
+          <div class="food-featured-label">
+            <span>+</span>
+            <span>Featured Services</span>
+          </div>
+          <p class="food-featured-desc">Personalised dental care focused on healthy teeth, confident smiles, and comfortable treatment for every patient.</p>
+        </div>
+        <div class="food-work-card food-card-small">
+          <img loading="lazy" decoding="async" src="img2/Image-Jun-25-2026-05_31_36-PM_11zon.jpg" alt="Dental Implants">
+        </div>
+        <div class="food-card-label" style="margin-left:35px;">
+          <span class="food-card-title">Dental Implants</span>
+          <span class="food-separator">—</span>
+          <span class="food-card-subtitle">Natural Smile Restoration</span>
+        </div>
+      </div>
+    </div>
+    <div class="food-row-2">
+      <div class="food-left-card-wrap">
+        <div class="food-work-card">
+          <img loading="lazy" decoding="async" src="img2/For_patinets_slider1.jpg" alt="Paediatric Dentistry">
+        </div>
+        <div class="food-card-label">
+          <span class="food-card-title">Paediatrics</span>
+          <span class="food-separator">—</span>
+          <span class="food-card-subtitle">Gentle Care for Children</span>
+        </div>
+      </div>
+      <div class="food-right-card-wrap">
+        <div class="food-work-card">
+          <img loading="lazy" decoding="async" src="img2/Dental-cleaning.jpg" alt="Teeth Cleaning">
+        </div>
+        <div class="food-card-label">
+          <span class="food-card-title">Teeth Cleaning</span>
+          <span class="food-separator">—</span>
+          <span class="food-card-subtitle">Healthy Gums &amp; Fresh Smile</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     REVIEWS
+     ============================================================ -->
+<div class="noho-scope">
+  <h2 class="noho-heading title-reveal" id="storiesTitle">Our Reviews</h2>
+  <div class="stack-wrapper" id="stackWrapper">
+    <div class="stack-sticky">
+      <div class="stack-track" id="stackTrack">
+
+        <article class="story-card" style="--card-bg:#C9B69E;">
+          <div class="card-dot"></div>
+          <div>
+            <h2>SANTOSH N P — A Great Dental Experience</h2>
+            <p>I had a great experience at this dental clinic. Dr. Prasad is extremely knowledgeable and took the time to explain the procedure in detail, which really helped ease my anxiety. The staff was friendly and welcoming.</p>
+          </div>
+          <div class="card-footer">
+            <span class="date">6 months ago · 10:30 AM</span>
+            <span class="category">Patient Review</span>
+            <a href="#" class="read-link">
+              Read story
+              <svg width="14" height="14" viewBox="0 0 16 16" fill="none">
+                <path d="M6 3.5L10.5 8L6 12.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" />
+              </svg>
+            </a>
+          </div>
+        </article>
+
+        <article class="story-card" style="--card-bg:#DAD0BD;">
+          <div class="card-dot"></div>
+          <div>
+            <h2>CHANDRAKUMAR SELVARAJ — Compassionate &amp; Caring</h2>
+            <p>Dr. Prasad is very compassionate and caring. We truly felt cared for with kindness and attention during the consultation. We felt very happy about his professionalism and highly recommend him for people of all age groups.</p>
+          </div>
+          <div class="card-footer">
+            <span class="date">6 months ago · 11:15 AM</span>
+            <span class="category">Patient Review</span>
+            <a href="#" class="read-link">
+              Read story
+              <svg width="14" height="14" viewBox="0 0 16 16" fill="none">
+                <path d="M6 3.5L10.5 8L6 12.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" />
+              </svg>
+            </a>
+          </div>
+        </article>
+
+        <article class="story-card" style="--card-bg:#ffffff;">
+          <div class="card-dot"></div>
+          <div>
+            <h2>Shrawan Balai — Best Dental Experience</h2>
+            <p>Best dental experience I've ever had at Dental Health Clinic Koramangala, Bangalore.</p>
+          </div>
+          <div class="card-footer">
+            <span class="date">5 months ago · 2:20 PM</span>
+            <span class="category">Patient Review</span>
+            <a href="#" class="read-link">
+              Read story
+              <svg width="14" height="14" viewBox="0 0 16 16" fill="none">
+                <path d="M6 3.5L10.5 8L6 12.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" />
+              </svg>
+            </a>
+          </div>
+        </article>
+
+        <article class="story-card" style="--card-bg:#DAD0BD;">
+          <div class="card-dot"></div>
+          <div>
+            <h2>Sneha Poojari — Care Since Childhood</h2>
+            <p>I’ve been going to Dr. Prasad since my childhood, and he has always been incredibly patient, kind, and excellent at what he does. Over the years, he has helped me through various tooth, gum, and jaw issues with great care.</p>
+          </div>
+          <div class="card-footer">
+            <span class="date">6 months ago · 4:45 PM</span>
+            <span class="category">Patient Review</span>
+            <a href="#" class="read-link">
+              Read story
+              <svg width="14" height="14" viewBox="0 0 16 16" fill="none">
+                <path d="M6 3.5L10.5 8L6 12.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" />
+              </svg>
+            </a>
+          </div>
+        </article>
+
+        <article class="story-card" style="--card-bg:#C9B69E;">
+          <div class="card-dot"></div>
+          <div>
+            <h2>Veena Prakash — Experienced &amp; Personal Care</h2>
+            <p>Dr. Prasad is a very experienced doctor who gives personal attention to every patient and makes you feel comfortable. I have visited multiple times, and the treatment is always very good and handled with great care.</p>
+          </div>
+          <div class="card-footer">
+            <span class="date">4 months ago · 12:10 PM</span>
+            <span class="category">Patient Review</span>
+            <a href="#" class="read-link">
+              Read story
+              <svg width="14" height="14" viewBox="0 0 16 16" fill="none">
+                <path d="M6 3.5L10.5 8L6 12.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" />
+              </svg>
+            </a>
+          </div>
+        </article>
+
+      </div>
+    </div>
+    <div class="progress-dots" id="progressDots">
+      <span class="active"></span>
+      <span></span>
+      <span></span>
+      <span></span>
+      <span></span>
+    </div>
+  </div>
+</div>
+
+<script>
+(function () {
+  const wrapper = document.getElementById('stackWrapper');
+  const track = document.getElementById('stackTrack');
+  const cards = Array.from(track.querySelectorAll('.story-card'));
+  const dots = Array.from(document.getElementById('progressDots').children);
+  const N = cards.length;
+  const SEGMENTS = N - 1;
+  const VISIBLE_AT_REST = 2.25;
+  const OVERLAP = 0.8;
+  const mqDesktop = window.matchMedia('(min-width: 768px)');
+  const mqReduce = window.matchMedia('(prefers-reduced-motion: reduce)');
+  const isDesktop = () => mqDesktop.matches && !mqReduce.matches;
+
+  let cardWidth = 0;
+  let sliver = 0;
+  let ticking = false;
+  let lastActive = -1;
+  let wrapperTop = 0;
+  let scrollable = 0;
+
+  function measure() {
+    wrapperTop = wrapper.getBoundingClientRect().top + window.scrollY;
+    scrollable = wrapper.offsetHeight - window.innerHeight;
+  }
+
+  function layoutCards() {
+    if (!isDesktop()) {
+      cards.forEach(c => {
+        c.style.width = '';
+        c.style.transform = '';
+      });
+      return;
+    }
+    const pl = parseFloat(getComputedStyle(track).paddingLeft) || 0;
+    const avail = track.getBoundingClientRect().width - pl;
+    if (avail <= 0) return;
+    cardWidth = avail / VISIBLE_AT_REST;
+    sliver = cardWidth * (1 - OVERLAP);
+    cards.forEach(c => {
+      c.style.width = cardWidth + 'px';
+    });
+  }
+
+  function positionCards(progress) {
+    if (!isDesktop() || !cardWidth) return;
+    let x = 0;
+    cards.forEach((card, i) => {
+      if (i === 0) {
+        card.style.transform = 'translate3d(0,0,0)';
+        return;
+      }
+      const s = (i - 1) / SEGMENTS;
+      const e = i / SEGMENTS;
+      const t = Math.max(0, Math.min(1, (progress - s) / (e - s)));
+      x += cardWidth + (sliver - cardWidth) * t;
+      card.style.transform = `translate3d(${x}px,0,0)`;
+    });
+    const active = Math.round(progress * SEGMENTS);
+    if (active !== lastActive) {
+      lastActive = active;
+      dots.forEach((d, i) => d.classList.toggle('active', i === active));
+    }
+  }
+
+  function update() {
+    ticking = false;
+    const p = scrollable > 0 ? (window.scrollY - wrapperTop) / scrollable : 0;
+    positionCards(Math.max(0, Math.min(1, p)));
+  }
+
+  function onScroll() {
+    if (!isDesktop() || ticking) return;
+    ticking = true;
+    requestAnimationFrame(update);
+  }
+
+  function init() {
+    layoutCards();
+    measure();
+    update();
+  }
+
+  window.addEventListener('scroll', onScroll, { passive: true });
+  window.addEventListener('resize', init);
+  window.addEventListener('load', init);
+  init();
+})();
+</script>
+
+<!-- ============================================================
+     APPOINTMENT
+     ============================================================ -->
+<section class="appt-section" id="appointment">
+  <h2 class="appt-heading title-reveal" id="formTitle">Book Your Appointment</h2>
+
+  <div class="appt-content">
+    <div class="appt-left">
+      <p>Ready for a healthier smile? Fill the form and our team will confirm your appointment within a few hours.</p>
+      <div class="appt-contact-info">
+        <div>
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#0a0a0a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.91.34 1.85.57 2.81.7A2 2 0 0 1 22 16.92z" />
+          </svg>
+          +91 98451 01056
+        </div>
+        <div>
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#0a0a0a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" />
+            <path d="M22 6l-10 7L2 6" />
+          </svg>
+          care@dentalux.com
+        </div>
+        <div>
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#0a0a0a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" />
+            <circle cx="12" cy="10" r="3" />
+          </svg>
+          Koramangala 5th Block, Bengaluru
+        </div>
+      </div>
+    </div>
+
+    <div class="appt-form-wrap">
+      <form class="appt-form" id="appointmentForm" novalidate>
+        <div class="form-title">Request an Appointment</div>
+        <div class="form-row">
+          <div class="form-group">
+            <label for="fname">Full Name</label>
+            <input type="text" id="fname" placeholder="Your name" required>
+          </div>
+          <div class="form-group">
+            <label for="fphone">Phone</label>
+            <input type="tel" id="fphone" placeholder="+91 ..." required>
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="femail">Email</label>
+          <input type="email" id="femail" placeholder="you@example.com" required>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label for="fservice">Service</label>
+            <select id="fservice" required>
+              <option value="">Select a service</option>
+              <option>Teeth whitening</option>
+              <option>Dental implants</option>
+              <option>Paediatrics</option>
+              <option>Root canals</option>
+              <option>Teeth cleaning</option>
+              <option>Teeth reshaping</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="fdate">Preferred Date</label>
+            <input type="date" id="fdate" required>
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="fmsg">Message (optional)</label>
+          <textarea id="fmsg" placeholder="Tell us about your concern..."></textarea>
+        </div>
+        <button type="submit" class="appt-submit">
+          Confirm Appointment
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M5 12h14M13 6l6 6-6 6" />
+          </svg>
+        </button>
+        <div class="form-success" id="formSuccess">Thank you! Your appointment request has been received. We will call you shortly to confirm.</div>
+      </form>
+    </div>
+  </div>
+</section>
+
+<script>
+function toggleMenu() {
+  const o = document.getElementById('menuOverlay');
+  o.classList.toggle('active');
+  document.body.style.overflow = o.classList.contains('active') ? 'hidden' : '';
+}
+
+document.addEventListener('keydown', e => {
+  const o = document.getElementById('menuOverlay');
+  if (e.key === 'Escape' && o.classList.contains('active')) toggleMenu();
+});
+
+document.getElementById('fdate').min = new Date().toISOString().split('T')[0];
+
+document.getElementById('appointmentForm').addEventListener('submit', function (e) {
+  e.preventDefault();
+  const v = id => document.getElementById(id).value.trim();
+
+  if (!v('fname') || !v('fphone') || !v('femail') || !v('fservice') || !v('fdate')) {
+    alert('Please fill in all required fields.');
+    return;
+  }
+
+  const btn = this.querySelector('.appt-submit');
+  const arrow = btn.innerHTML.slice(btn.innerHTML.indexOf('<svg'));
+  document.getElementById('formSuccess').style.display = 'block';
+  btn.disabled = true;
+  btn.textContent = 'Request Sent ✓';
+
+  setTimeout(() => {
+    this.reset();
+    btn.disabled = false;
+    btn.innerHTML = 'Confirm Appointment ' + arrow;
+    document.getElementById('formSuccess').style.display = 'none';
+  }, 4000);
+});
+</script>
+
+<!-- ============================================================
+     CHARACTER REVEAL
+     (ab yeh script appointment section ke BAAD hai — yahi fix hai)
+     ============================================================ -->
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+  function revealTitle(el) {
+    if (!el || el.dataset.revealed === '1') return;
+    el.dataset.revealed = '1';
+
+    const text = el.textContent.trim();
+    el.innerHTML = '';
+    text.split('').forEach((ch, i) => {
+      const span = document.createElement('span');
+      span.className = 'char';
+      if (ch === ' ') {
+        span.className += ' char-space';
+        span.innerHTML = '&nbsp;';
+      } else {
+        span.textContent = ch;
+      }
+      span.style.transitionDelay = (i * 0.06) + 's';
+      el.appendChild(span);
+    });
+    el.style.opacity = '1';
+    setTimeout(() => {
+      el.querySelectorAll('.char').forEach(c => c.classList.add('revealed'));
+    }, 300);
+  }
+
+  const els = ['selectedWorkTitle', 'storiesTitle', 'formTitle']
+    .map(id => document.getElementById(id))
+    .filter(Boolean);
+
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        io.unobserve(e.target);
+        setTimeout(() => revealTitle(e.target), 200);
+      }
+    });
+  }, { threshold: 0.15, rootMargin: '0px 0px -5% 0px' });
+
+  els.forEach(el => io.observe(el));
+
+  // SAFETY FALLBACK — agar observer na chale to scroll par force reveal
+  function forceReveal() {
+    els.forEach(el => {
+      const r = el.getBoundingClientRect();
+      if (r.top < window.innerHeight && r.bottom > 0) {
+        revealTitle(el);
+      }
+    });
+  }
+  window.addEventListener('scroll', forceReveal, { passive: true });
+  setTimeout(forceReveal, 2500);
+});
+</script>
+
+<!-- ============================================================
+     FOOTER
+     ============================================================ -->
+<footer class="site-footer">
+  <h1 class="talk">Let&rsquo;s Talk</h1>
+  <div class="footer-grid">
+    <div class="col">
+      <p class="col-label">N:</p>
+      <a href="#">Home</a>
+      <a href="#">Portfolio</a>
+      <a href="#">About</a>
+      <a href="#">Contact</a>
+    </div>
+    <div class="col">
+      <p class="col-label">S:</p>
+      <a href="#">Instagram</a>
+      <a href="#">LinkedIn</a>
+    </div>
+    <div class="col">
+      <p class="col-label">M:</p>
+      <div class="footer-map">
+        <iframe
+          title="Clinic location"
+          src="https://www.google.com/maps?q=150,%205th%20Cross,%20KHB%20Colony,%2060%20Feet%20Rd,%20Koramangala%205th%20Block,%20Bengaluru,%20Karnataka%20560095&output=embed"
+          width="100%"
+          height="180"
+          style="border:0;"
+          loading="lazy"
+          allowfullscreen
+          referrerpolicy="no-referrer-when-downgrade"
+        ></iframe>
+      </div>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>
