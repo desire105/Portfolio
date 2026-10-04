@@ -154,71 +154,12 @@ img {
 .cc-menu-content {
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: center;
   flex: 1;
   padding: 20px 0;
   gap: 60px;
   min-height: 0;
-}
-
-.cc-image-stack {
   position: relative;
-  width: 320px;
-  height: 400px;
-  flex-shrink: 0;
-}
-
-.cc-stack-img {
-  position: absolute;
-  width: 260px;
-  height: 340px;
-  border-radius: 4px;
-  overflow: hidden;
-  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.6);
-  transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
-}
-
-.cc-stack-img img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  display: block;
-}
-
-.cc-stack-img:nth-child(1) {
-  transform: rotate(-8deg) translate(-10px, 10px);
-  z-index: 1;
-}
-
-.cc-stack-img:nth-child(2) {
-  transform: rotate(4deg) translate(20px, -5px);
-  z-index: 2;
-}
-
-.cc-stack-img:nth-child(3) {
-  transform: rotate(-2deg) translate(40px, 15px);
-  z-index: 3;
-}
-
-.cc-stack-img:nth-child(4) {
-  transform: rotate(6deg) translate(60px, 5px);
-  z-index: 4;
-}
-
-.cc-image-stack:hover .cc-stack-img:nth-child(1) {
-  transform: rotate(-12deg) translate(-20px, 20px);
-}
-
-.cc-image-stack:hover .cc-stack-img:nth-child(2) {
-  transform: rotate(8deg) translate(30px, -15px);
-}
-
-.cc-image-stack:hover .cc-stack-img:nth-child(3) {
-  transform: rotate(-6deg) translate(50px, 25px);
-}
-
-.cc-image-stack:hover .cc-stack-img:nth-child(4) {
-  transform: rotate(10deg) translate(70px, 10px);
 }
 
 .cc-nav-links {
@@ -227,6 +168,8 @@ img {
   gap: 8px;
   flex: 1;
   align-items: center;
+  justify-content: center;
+  text-align: center;
 }
 
 .cc-nav-link {
@@ -276,6 +219,9 @@ img {
 }
 
 .cc-menu-info {
+  position: absolute;
+  right: 0;
+  bottom: 20px;
   display: flex;
   flex-direction: column;
   align-items: flex-end;
@@ -515,7 +461,6 @@ img {
   width: 100%;
   height: 100%;
   display: block;
-  /* ✅ Mobile pe touch scroll allow karta hai — model touch nahi lega */
   touch-action: pan-y !important;
   pointer-events: none;
 }
@@ -1358,7 +1303,6 @@ img {
     max-width: 360px;
   }
 
-  /* ---------- SERVICES: horizontal swipe carousel ---------- */
   .services {
     padding: 20px 0 80px;
   }
@@ -1435,7 +1379,7 @@ img {
 }
 
 /* ============================================================
-   RESPONSIVE — 767px (Reviews horizontal scroll)
+   RESPONSIVE — 767px (Reviews horizontal scroll + mobile fix)
    ============================================================ */
 @media (max-width: 767px), (prefers-reduced-motion: reduce) {
   .noho-scope {
@@ -1480,14 +1424,58 @@ img {
 
   .noho-scope .story-card {
     position: static !important;
-    flex: 0 0 clamp(260px, 80vw, 380px);
-    width: clamp(260px, 80vw, 380px) !important;
+    flex: 0 0 clamp(280px, 86vw, 400px);
+    width: clamp(280px, 86vw, 400px) !important;
     height: auto;
-    min-height: 400px;
+    min-height: auto;
     max-height: none;
     transform: none !important;
     border-radius: 14px;
     scroll-snap-align: center;
+    padding: 24px 20px 20px;
+  }
+
+  /* ✅ Reviews card footer fix — date/time/read properly stacked */
+  .noho-scope .story-card h2 {
+    font-size: 18px;
+    max-width: 100%;
+    padding-right: 20px;
+    margin-bottom: 12px;
+  }
+
+  .noho-scope .story-card p {
+    font-size: 14px;
+    line-height: 1.6;
+    max-width: 100%;
+  }
+
+  .noho-scope .card-footer {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 6px;
+    margin-top: 20px;
+    padding-top: 14px;
+    border-top: 1px solid rgba(0, 0, 0, 0.08);
+  }
+
+  .noho-scope .card-footer .date,
+  .noho-scope .card-footer .category {
+    font-size: 12.5px;
+    white-space: normal;
+    line-height: 1.4;
+  }
+
+  .noho-scope .card-footer .read-link {
+    margin-left: 0;
+    margin-top: 4px;
+    font-size: 12.5px;
+  }
+
+  .noho-scope .card-dot {
+    width: 8px;
+    height: 8px;
+    top: 22px;
+    right: 20px;
   }
 
   .noho-scope .progress-dots {
@@ -1520,11 +1508,6 @@ img {
     font-size: clamp(2.2rem, 10vw, 3.5rem);
   }
 
-  .cc-image-stack {
-    display: none;
-  }
-
-  /* ✅ "Based in Dubai / Email Us" — mobile pe hide */
   .cc-menu-info {
     display: none;
   }
@@ -1675,12 +1658,6 @@ img {
     </button>
   </div>
   <div class="cc-menu-content">
-    <div class="cc-image-stack">
-      <div class="cc-stack-img"><img loading="lazy" decoding="async" width="260" height="340" src="img1/505388814_17842580271513364_297797104839180552_n.jpg" alt="Film 1"></div>
-      <div class="cc-stack-img"><img loading="lazy" decoding="async" width="260" height="340" src="img1/523102195_17850613014513364_2751607192450431514_n.webp" alt="Film 2"></div>
-      <div class="cc-stack-img"><img loading="lazy" decoding="async" width="260" height="340" src="img1/IMG2962.JPG" alt="Film 3"></div>
-      <div class="cc-stack-img"><img loading="lazy" decoding="async" width="260" height="340" src="img1/WhatsApp%20Image%202026-04-17%20at%208.26.40%20PM.jpeg" alt="Film 4"></div>
-    </div>
     <nav class="cc-nav-links">
       <a href="#" class="cc-nav-link">Home</a>
       <a href="#" class="cc-nav-link">Portfolio</a>
@@ -1769,7 +1746,6 @@ const canvas = document.getElementById('modelCanvas');
 const container = canvas.parentElement;
 const fallback = document.getElementById('modelFallback');
 
-/* ✅ Mobile detection */
 const isMobile = window.matchMedia('(max-width: 900px)').matches ||
                  ('ontouchstart' in window && window.innerWidth <= 1024);
 
@@ -1793,7 +1769,6 @@ pmrem.dispose();
 
 const camera = new THREE.PerspectiveCamera(35, 1, 0.1, 100);
 
-/* ✅ Desktop pe OrbitControls, Mobile pe nahi — sirf auto rotate */
 let controls = null;
 
 if (!isMobile) {
@@ -1805,7 +1780,6 @@ if (!isMobile) {
   controls.enableZoom = false;
   controls.enablePan = false;
 } else {
-  /* ✅ Mobile: canvas pe touch events block — page scroll normal rahega */
   canvas.style.pointerEvents = 'none';
   canvas.style.touchAction = 'pan-y';
 }
@@ -1898,12 +1872,10 @@ function loop() {
   requestAnimationFrame(loop);
 
   if (controls) {
-    /* Desktop — OrbitControls auto rotate */
     controls.update();
   } else if (loadedModel) {
-    /* ✅ Mobile — continuous 360° rotation */
     const delta = clock.getDelta();
-    loadedModel.rotation.y += delta * 0.6; /* speed adjust kar sakte ho */
+    loadedModel.rotation.y += delta * 0.6;
   }
 
   renderer.render(scene, camera);
@@ -1912,7 +1884,7 @@ function loop() {
 function start() {
   if (!running) {
     running = true;
-    clock.getDelta(); /* reset delta */
+    clock.getDelta();
     loop();
   }
 }
